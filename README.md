@@ -31,7 +31,7 @@
 > 提醒：沿用CookieCloud插件的加解密方式，即本插件可同时操作CookieCloud插件上传的CookieCloud服务器数据
 
 # 插件初始界面：
-![](CookieMate/popup.png)
+![](/popup.png)
 
 # 声明：
 - 浏览器cookie操作有一定风险，此插件本身不会储存任何cookie数据，并且不会传输或储存任何用户数据到其它任何非自定义的服务器中！
