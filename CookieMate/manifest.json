@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Cookie伴侣",
+  "version": "1.0",
+  "description": "获取当前页面Cookie、对本地与云端储存的Cookie数据修改、覆盖导入、同步。",
+  "icons": {
+      "16": "icons/icon128.png",
+      "32": "icons/icon128.png",
+      "48": "icons/icon128.png",
+      "96": "icons/icon128.png",
+      "128": "icons/icon128.png"
+    },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "cookies",
+    "alarms",
+    "storage",
+    "bookmarks",
+    "scripting",
+    "notifications",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Cookie伴侣"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}

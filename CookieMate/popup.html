@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cookie伴侣</title>
+    <script src="js/crypto-js/crypto-js.js"></script>
+    <script src="js/pako/pako.js"></script>
+    <script src="js/dompurify/dist/purify.js"></script>
+    <script src="Functions.js"></script>
+    <script src="popup.js"></script>
+    <style>
+      body {
+        margin: 15px;
+        background-color: #222222;
+      }
+
+      .container {
+        overflow: hidden;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+      }
+
+      .container button {
+        color: rgb(255, 255, 255);
+        padding: 1px;
+        border: 1px solid #222222;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      /* 按钮 背景颜色 */
+      .container button {
+        background-color: #6d6969;
+      }
+
+      /* 按钮 悬停时的背景颜色 */
+      .container button:hover {
+        background-color: #6fb6d4;
+      }
+
+      /* 按钮 被点击时的背景颜色 */
+      .container button:active {
+        background-color: #504c4c;
+      }
+
+
+      /* 按钮内边距 */
+      /* 圆角边框 */
+      .container input,
+      .container textarea {
+        padding: 5px;
+        border-radius: 5px;
+      }
+
+      /* 背景色 */
+      /* 边框 */
+      .container input,
+      .container textarea {
+        background-color: #565656;
+        border: 1px solid #222222;
+      }
+
+      /* 输入框内文本颜色 */
+      .container input::placeholder,
+      .container textarea::placeholder {
+        color: rgb(147, 147, 147);
+      }
+
+      /* 输入框 鼠标 悬停时改变边框颜色 */
+      .container input:hover,
+      .container textarea:hover {
+        background-color: #727272;
+        border-color: #6fb6d4;
+      }
+
+      /* 输入框 聚焦时的样式 */
+      /* 去除默认的聚焦样式 */
+      .container input:focus,
+      .container textarea:focus {
+        outline: none;
+        background-color: #dddddd;
+      }
+
+      .domain_cookie {
+        resize: none;
+      }
+      .textOutput {
+        resize: none;
+        /* 输入框 是否可以下拉 的样式 */
+        /* resize: vertical; */
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        justify-self: center; 
+        align-self: center; 
+        grid-area: h1;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 90px 90px 90px 60px;
+        grid-template-rows: 35px 25px 25px 25px 25px 40px 40px 40px 40px 40px 40px 40px 40px;
+        gap: 5px 5px;
+        grid-auto-flow: column dense;
+        justify-content: space-around;
+        align-content: start;
+        justify-items: stretch;
+        grid-template-areas:
+          "h1 h1 h1 h1"
+          "server_label server_input server_input server_input"
+          "uuid_label uuid_input uuid_input uuid_button"
+          "key_label key_input key_input key_button"
+          "save_button text_button button0 button1"
+          "domain_cookie domain_cookie domain_cookie button2"
+          "domain_cookie domain_cookie domain_cookie button3"
+          "domain_cookie domain_cookie domain_cookie button4"
+          "domain_cookie domain_cookie domain_cookie button5"
+          "domain_cookie domain_cookie domain_cookie button6"
+          "domain_cookie domain_cookie domain_cookie button7"
+          "textOutput textOutput textOutput button8"
+          "textOutput textOutput textOutput button9";
+        width: 350px;
+      }
+
+      .server_label {
+        justify-self: start; 
+        align-self: center; 
+        grid-area: server_label;
+      }
+
+      .server_input {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: server_input;
+      }
+
+      .uuid_label {
+        justify-self: start; 
+        align-self: center; 
+        grid-area: uuid_label;
+      }
+
+      .uuid_input {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: uuid_input;
+      }
+
+      .uuid_button {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: uuid_button;
+      }
+
+      .key_label {
+        justify-self: start; 
+        align-self: center; 
+        grid-area: key_label;
+      }
+
+      .key_input {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: key_input;
+      }
+
+      .key_button {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: key_button;
+      }
+
+      .domain_cookie {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: domain_cookie;
+      }
+
+      .button1 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button1;
+      }
+
+      .button2 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button2;
+      }
+
+      .button3 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button3;
+      }
+
+      .button4 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button4;
+      }
+
+      .button5 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button5;
+      }
+
+      .button6 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button6;
+      }
+
+      .button7 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button7;
+      }
+
+      .button8 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button8;
+      }
+
+      .button9 {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: button9;
+      }
+
+      .textOutput {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: textOutput;
+      }
+
+      .text_button {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: text_button;
+      }
+
+      .save_button {
+        justify-self: stretch;
+        align-self: stretch;
+        grid-area: save_button;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 5px;
+      }
+
+      .green_dot {
+        justify-self: start;
+        align-self: end;
+        grid-area: 1 / 4 / 2 / 4;
+        background-color: green;
+      }
+
+      .red_dot {
+        justify-self: end;
+        align-self: end;
+        grid-area: 1 / 4 / 2 / 4;
+        background-color: red;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cookie伴侣</h1><span id="state_green_dot" class="dot green_dot"></span><span id="state_red_dot" class="dot red_dot"></span>
+      <label class="server_label" for="url">云服务器地址 :</label>
+      <input class="server_input" type="text" id="url" placeholder="http(s)://(IP 或 域名):（端口号）/ 路径" title="输入格式示例: http(s)://10.0.0.1:3000/cookiecloud">
+      <label class="uuid_label" for="uuid">用户 UUID : </label>
+      <input class="uuid_input" type="text" id="uuid" placeholder="支持22位以内的字符串 UUID" title="支持22位以内的字符串 UUID">
+      <button type="button" class="uuid_button" id="random_uuidBtn" title="点击会在左侧输入框自动生成随机22位字符串&#10;点击 测试保存按钮 后才会覆盖储存">重新生成</button>
+      <label class="key_label" for="key">端对端加密key :</label>
+      <input class="key_input" type="text" id="key" placeholder="支持22位以内的字符串 密码key" title="支持22位以内的字符串 密码key">
+      <button type="button" class="key_button" id="random_keyBtn" title="点击会在左侧输入框自动生成随机22位字符串&#10;点击 测试保存按钮 后才会覆盖储存">重新生成</button>
+      <textarea class="domain_cookie" id="cookie_message_OutPut"
+        placeholder="1、点击右侧功能按钮获取并显示数据使用。&#10;&#10;(--- 手动输入内容前请先删除旧内容 ---)&#10;&#10;2、可手动将Cookie字符串粘贴到这里使用&#10;3、此处输入cookie&#10;默认支持的cookie格式示例:&#10;aaa=123abc;bbb=123abc;ccc=123abc&#10;&#10;4、此处输入域名列表,每行一个域名&#10;( 可不用带https:// )" 
+              title="1、点击右侧功能按钮获取并显示数据使用。&#10;&#10;(--- 手动输入内容前请先删除旧内容 ---)&#10;&#10;2、可手动将Cookie字符串粘贴到这里使用&#10;3、此处输入cookie&#10;默认支持的cookie格式示例:&#10;aaa=123abc;bbb=123abc;ccc=123abc&#10;&#10;4、此处输入域名列表,每行一个域名&#10;( 可不用带https:// )"
+      ></textarea>
+      <button type="button" class="save_button" id="savebutton" title="点击按钮会保存 输入的云服务器地址、用户UUID、key">保存</button>
+      <button type="button" class="text_button" id="textbutton" title="测试连接 输入的云服务器 是否正常&#10;(点击按钮前请检查 云服务器地址相关输入 是否正确)">测试连接</button>
+      <button type="button" class="button0" id="createSelectAndMonitorkeywordBtn" title="1、选定需要监测的 浏览器标签收藏夹&#10;2、设定cookie监测关键词">监测目录</button>
+      <button type="button" class="button1" id="CronJobBtn" title="设定自动任务定时周期 监测收藏夹内站点标签的cookie&#10;自动上传云端、下载覆盖cookie数据">定时任务</button>
+      <button type="button" class="button2" id="getCurrentCookiesBtn" title="点击按钮获取 当前浏览器显示的这一个页面的cookie数据 并显示到左边输入框&#10;（会自动清空左侧输入框内容）">当前页面<br>Cookie</button>
+      <button type="button" class="button3" id="geturlCookiesBtn" title="点击按钮获取 当前浏览器显示的这一个页面 在云端储存的cookie数据 并显示到左边输入框&#10;（会自动清空左侧输入框内容）">当前页面<br>云Cookie</button>
+      <button type="button" class="button4" id="overwriteCookiesBtn" title="根据按钮左侧输入框 输入的cookie内容,覆盖到浏览器中当前页面站点的cookie数据&#10;(此操作不可逆,请确保输入内容无误)">左侧输入<br>覆盖当前</button>
+      <button type="button" class="button5" id="Refresh_PageBtn" title="点击按钮 浏览器当前页面会 自动跳转 到 这个页面站点 的首页&#10;(用于快速验证上面 左侧输入覆盖当前 按钮 功能的结果)">（跳转）<br>站点-首页</button>
+      <button type="button" class="button6" id="showAllDomainBtn" title="点击按钮获取 会获取云端的cookie数据,并显示其中保存的 所有站点 的域名,每行表示一个站点">云端所有<br>域名列表</button>
+      <button type="button" class="button7" id="AllDomainInputBtn" title="点击按钮会 下载云端的cookie数据,并根据左侧输入框 输入的 域名列表(每行一个域名)导入并覆盖 列表中对应站点 的cookie数据&#10;(此操作不可逆,仅对列表内输入的域名有效)&#10;(每行一个域名)">输入列表<br>下载覆盖</button>
+      <button type="button" class="button8" id="SingleCoverageCookiesBtn" title="点击按钮会 自动获取当前这个浏览器页面的cookie数据,并上传到云服务器中&#10;(此操作不可逆,不会修改云端数据中的其它站点的cookie数据)">当前站点<br>上传云端</button>
+      <button type="button" class="button9" id="AllDomainCoverageCookiesBtn" title="点击按钮会 根据输入框输入的 域名列表(每行一个域名) 获取此浏览器中对应站点域名的cookie数据,并上传到云服务器中&#10;(此操作不可逆,不会修改云端数据中的其它站点的cookie数据)">输入列表<br>上传云端</button>
+      <textarea class="textOutput" id="textOutput" placeholder="(---运行过程 提醒消息 输出显示框---)" title="(---运行过程 提醒消息 输出框---)"></textarea>
+    </div>
+  </body>
+</html>
