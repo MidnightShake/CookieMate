@@ -1,5 +1,5 @@
 # CookieMate （ Cookie伴侣 ）
-![](icons/icon128.png)
+![](CookieMate/icons/icon128.png)
 这是一个兼容chrome内核的浏览器插件 Cookie伴侣。搭配CookieCloud服务器端，实现单站点或批量站点的Cookie快捷复制、修改上传储存。
 
 # 实现功能：
