@@ -23,8 +23,11 @@
 
 4、设定自动定时任务，设定需要监测的浏览器收藏夹、cookie数据检测关键词，自动保持本地浏览器与CookieCloud服务器端的cookie数据有效一致。
 - 自动监测选定的收藏夹中的站点 的cookie数据与CookieCloud服务器端中对应站点域名的cookie数据，或根据设定的cookie数据关键词，自动判别有效cookie数据，实现监测站点的cookie数据 自动上传至云端CookieCloud服务器端中，或从云端CookieCloud服务器端中下载覆盖到当前浏览器，自动保持本地浏览器与CookieCloud服务器端的cookie数据有效一致。
+
 > 提醒：所选定的浏览器收藏夹，不会监测此收藏夹其中的子收藏夹。
+
 > 提醒：搭配CookieCloud服务器端的相关操作，需要填入正确的 CookieCloud服务器地址 和 用户UUID、端对端加密key 才能使用对应功能。如果仅有CookieCloud服务器 并未储存任何数据，可使用此插件新建自己的用户数据。
+
 > 提醒：沿用CookieCloud插件的加解密方式，即本插件可同时操作CookieCloud插件上传的CookieCloud服务器数据
 
 # 声明：
