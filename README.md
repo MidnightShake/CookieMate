@@ -1,8 +1,10 @@
 # CookieMate （ Cookie伴侣 ）
+
 ![](CookieMate/icons/icon128.png)
 
 - 这是一个兼容chrome内核的浏览器插件 Cookie伴侣。搭配CookieCloud服务器端，实现单站点或批量站点的Cookie快捷复制、修改上传储存。
-
+- 此插件为编写自用在 chrome 和 Edge 浏览器，其他chrome内核的浏览器 未经测试按道理应该都可以使用。
+- 自用在手机端(安卓版)Edge Canary版 浏览器 开启开发者模式 也可以加载此插件使用。
 # 实现功能：
 1、在站点界面 可右键直接复制站点当前的cookie数据到剪贴板。
 
