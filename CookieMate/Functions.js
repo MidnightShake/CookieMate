@@ -739,6 +739,7 @@ async function encrypt_func(decrypted) {
 
 // 设置url的cookie
 function setUrlCookies(url, cookieInput, expirationDate) {
+    TextOPFunc(expirationDate);
     return new Promise((resolve, reject) => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             let Newurl;
@@ -767,8 +768,10 @@ function setUrlCookies(url, cookieInput, expirationDate) {
                         const cookieSetPromises = [];
                         let successCount = 0;
                         let failureCount = 0;
-                        if (expirationDate == "0" || !expirationDate) {
+                        if (expirationDate == "0" || !expirationDate || expirationDate == "undefined") {
                             expirationDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
+                        } else {
+                            expirationDate = parseInt(expirationDate);
                         }
                         for (let j = 0; j < cookiesArray.length; j++) {
                             const cookie = cookiesArray[j].trim().split("=");
@@ -776,7 +779,7 @@ function setUrlCookies(url, cookieInput, expirationDate) {
                             const value = cookie[1];
                             cookieSetPromises.push(
                                 new Promise((resolve, reject) => {
-                                    chrome.cookies.set({ url: Newurl, name: name, value: value , expirationDate: parseInt(expirationDate) }, function (setCookie) {
+                                    chrome.cookies.set({ url: Newurl, name: name, value: value , expirationDate: expirationDate }, function (setCookie) {
                                         if (setCookie) {
                                             successCount++;
                                             resolve();
