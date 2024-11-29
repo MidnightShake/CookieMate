@@ -341,7 +341,7 @@ chrome.contextMenus.onClicked.addListener(
                 let protocol = urlObject.protocol;
                 let hostname = urlObject.hostname;
                 let protocolAndHostname = protocol + "//" + hostname;
-                chrme.tabs.stop(currentTab.id)
+                chrme.tabs.stop(currentTab.id);
                 await menu_geturlCookiesAndRefresh_Page(hostname);
                 chrome.tabs.sendMessage(currentTab.id,{RefreshPage:protocolAndHostname},(response) => {
                     if (chrome.runtime.lastError) {
