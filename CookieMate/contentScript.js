@@ -14,7 +14,11 @@ try {
                 sendResponse('数据已经复制到剪切板!');
             }
         } else {
-            alert("出现异常,请重新操作获取!")
+            if (request.clipboard == "") {
+                alert("当前页面不存在或无法获取cookie数据!未操作复制到剪贴板。")
+            } else {
+                alert("当前页面的操作出现异常,请重新操作获取!")
+            }
             console.log("contentScript.js收到其他消息" + JSON.stringify(request));
             sendResponse('contentScript.js收到其他消息: ' + JSON.stringify(request));
         };
