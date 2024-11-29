@@ -342,13 +342,7 @@ chrome.contextMenus.onClicked.addListener(
                 let hostname = urlObject.hostname;
                 let protocolAndHostname = protocol + "//" + hostname;
                 await menu_geturlCookiesAndRefresh_Page(hostname);
-                chrome.tabs.sendMessage(currentTab.id,{RefreshPage:protocolAndHostname},(response) => {
-                    if (chrome.runtime.lastError) {
-                        console.log("background发送给contentScript消息时出错:", chrome.runtime.lastError.message);
-                    } else {
-                        console.log("background接收到信息:", response);
-                    }
-                });
+                chrome.tabs.update(currentTab.id,{url:protocolAndHostname});
             } else {
                 console.log('当前页面无法实现此操作!');
             }
