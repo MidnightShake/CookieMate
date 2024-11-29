@@ -739,7 +739,6 @@ async function encrypt_func(decrypted) {
 
 // 设置url的cookie
 function setUrlCookies(url, cookieInput, expirationDate) {
-    TextOPFunc(expirationDate);
     return new Promise((resolve, reject) => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             let Newurl;
