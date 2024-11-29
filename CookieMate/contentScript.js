@@ -13,20 +13,6 @@ try {
             } finally {
                 sendResponse('数据已经复制到剪切板!');
             }
-        } else if (request.RefreshPage) {
-            try {
-                // 跳转操作
-                // const shouldRedirect = confirm("是否跳转 => "+request.RefreshPage);
-                // if (shouldRedirect) {
-                //     window.location.href = request.RefreshPage;
-                //     sendResponse('已跳转站点首页!');
-                // }
-                window.location.href = request.RefreshPage;
-            } catch (error) {
-                alert("请手动操作重新访问站点首页，跳转站点首页操作出现异常!" + "\n" + " " + error.message + "\n" + " " + error.stack)
-                console.log("跳转站点首页操作出现异常!" + "\n" + " " + error.message + "\n" + " " + error.stack);
-                sendResponse('跳转站点首页操作出现异常!' + "\n" + " " + error.message + "\n" + " " + error.stack);
-            }
         } else {
             alert("出现异常,请重新操作获取!")
             console.log("contentScript.js收到其他消息" + JSON.stringify(request));
