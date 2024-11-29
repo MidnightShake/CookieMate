@@ -561,6 +561,7 @@ async function AllDomainCookiesInput(CookieData, domainData) {
             // 去除数组内元素的空格
             let domainsArray = arrayWithoutSpaces.map(item => item.trim()).filter(item => item !== "");
             let result = {};
+            let result_expirationDate = {};
             let resultNull = [];
             for (let i = 0; i < domainsArray.length; i++) {
                 let domaincookie = '';
@@ -584,6 +585,7 @@ async function AllDomainCookiesInput(CookieData, domainData) {
                         let domainCookies = CookieData.cookie_data[domainKey];
                         for (let cookie of domainCookies) {
                             domaincookie += `${cookie.name}=${cookie.value};`;
+                            result_expirationDate[domainKey] = `${cookie.expirationDate}`;
                         }
                         result[domainKey] = domaincookie.slice(0, -1)
                         break;
@@ -600,7 +602,7 @@ async function AllDomainCookiesInput(CookieData, domainData) {
                     let cookieInput = result[url];
                     if (cookieInput) {
                         let urldata = setUrl(url);
-                        let setUrlCookies_result = await setUrlCookies(urldata, cookieInput);
+                        let setUrlCookies_result = await setUrlCookies(urldata, cookieInput, result_expirationDate[url]);
                         let setUrlCookies_resultObj = {
                             newUrl: setUrlCookies_result.Newurl,
                             successCount: setUrlCookies_result.successCount,
@@ -736,7 +738,7 @@ async function encrypt_func(decrypted) {
 
 
 // 设置url的cookie
-function setUrlCookies(url, cookieInput) {
+function setUrlCookies(url, cookieInput, expirationDate) {
     return new Promise((resolve, reject) => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             let Newurl;
@@ -765,13 +767,16 @@ function setUrlCookies(url, cookieInput) {
                         const cookieSetPromises = [];
                         let successCount = 0;
                         let failureCount = 0;
+                        if (expirationDate == "0" || !expirationDate) {
+                            expirationDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
+                        }
                         for (let j = 0; j < cookiesArray.length; j++) {
                             const cookie = cookiesArray[j].trim().split("=");
                             const name = cookie[0];
                             const value = cookie[1];
                             cookieSetPromises.push(
                                 new Promise((resolve, reject) => {
-                                    chrome.cookies.set({ url: Newurl, name: name, value: value }, function (setCookie) {
+                                    chrome.cookies.set({ url: Newurl, name: name, value: value , expirationDate: parseInt(expirationDate) }, function (setCookie) {
                                         if (setCookie) {
                                             successCount++;
                                             resolve();
